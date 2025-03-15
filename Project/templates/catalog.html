@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='output-style.css') }}">
+    <title>Галерея</title>
+</head>
+<body style="background-image: url('../static/fon.jpg');">
+
+<header class="px-20 pt-8 flex items-center justify-between">
+    <div class="text-blue-600 font-bold text-2xl">Photophic</div>
+    <form class="w-2/3" method="POST" action="/catalog">
+        <div class="flex">
+            <div class="relative w-full">
+                <input type="search" name="search" class="px-3 py-2.5 w-full text-sm text-gray-900 rounded-lg border-gray-200 border outline-none" placeholder="Поиск..." />
+                <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-600 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 hover:cursor-pointer">
+                                      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </form>
+    <a href="/" class="px-3 py-2 bg-blue-600 font-bold text-white rounded-lg hover:bg-blue-700 hover:cursor-pointer">
+        Загрузить фото
+    </a>
+</header>
+
+<main class="px-20 pt-14">
+    <h2 class="text-xl">Обработанные файлы</h2>
+    {% if search_query %}
+        <p class="text-lg">Найдено по слову "<strong>{{ search_query }}</strong>": {{ images|length }} изображений</p>
+    {% endif %}
+    <div class="grid grid-cols-4 pt-6 gap-x-4 gap-y-6">
+        {% for image in images %}
+        <div class="flex flex-col rounded-xl shadow-lg border-blue-600 w-full h-full">
+            <img class="rounded-t-xl w-full h-48 object-cover" src="{{ url_for('static', filename='output/' + image[4]) }}" alt="Обработанное изображение">
+            <div class="px-3 py-2 text-xs font-bold grid grid-cols-3 gap-2">
+                {% for tag, count in image_tags[image[0]].items() %}
+                <button class="text-white text-center bg-blue-600 rounded-xl px-2 py-2">
+                    {{ tag }} ({{ count }})
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+<footer>
+
+</footer>
+
+<script src="./src/dropzone.js"></script>
+
+</body>
+</html>

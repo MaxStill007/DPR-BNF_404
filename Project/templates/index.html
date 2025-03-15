@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='output-style.css') }}">
+    <title>Vite App</title>
+</head>
+<body style="background-image: url('../static/fon.jpg');">
+
+<header class="px-20 pt-8 flex items-center justify-between">
+    <div class="text-blue-600 font-bold text-2xl">Photophic</div>
+    <form class="w-2/3" method="POST" action="/catalog">
+        <div class="flex">
+            <div class="relative w-full">
+                <input type="search" name="search" class="px-3 py-2.5 w-full text-sm text-gray-900 rounded-lg border-gray-200 border outline-none" placeholder="Поиск..." />
+                <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-600 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 hover:cursor-pointer">
+                                      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </form>
+    <a href="/catalog" class="px-3 py-2 bg-blue-600 font-bold text-white rounded-lg hover:bg-blue-700 hover:cursor-pointer">
+        Обработанные фото
+    </a>
+</header>
+<style>
+#tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#tags button {
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#tags button:hover {
+    background-color: #2563eb;
+}
+
+#outputImage {
+    display: none;
+}
+
+#result.hidden #outputImage {
+    display: block;
+}
+
+#outputImage {
+    display: block;
+    visibility: visible;
+    max-width: 10px;
+    height: auto;
+}
+</style>
+
+<main class="px-20 pt-20">
+    <div class="flex flex-col gap-8 items-center">
+        <h1 class="text-center text-blue-600 text-7xl font-bold">PHOTOPHIC</h1>
+        <h2 class="text-center text-xl">Анализируйте текст, объекты, фигуры на любом изображении</h2>
+
+        <form method="post" enctype="multipart/form-data" action="/upload">
+            <div id="dropzone" class="w-96 h-96 border-4 border-dashed border-blue-600 p-2 flex items-center justify-center hover:cursor-pointer">
+                <input class="hidden" type="file" name="file" id="fileInput">
+                <p class="w-1/2 text-center" id="dropzoneMsg">Перетащите файл сюда или нажмите "Загрузить"</p>
+            </div>
+        </form>
+        <img id="outputImage" class="hidden mt-4" alt="Обработанное изображение" style="max-width: 600px; width: auto; height: auto;" />
+        <div id="result" class="hidden flex flex-col items-center">
+            <div id="tags" class="flex flex-wrap mt-2"></div>
+        </div>
+    </div>
+</main>
+
+<footer>
+</footer>
+
+<script src="./static/dropzone.js"></script>
+</body>
+</html>
